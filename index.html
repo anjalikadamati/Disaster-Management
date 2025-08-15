@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESCUE HUB - Emergency Response Platform</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Advanced emergency response coordination platform">
+    <meta name="theme-color" content="#1e3a8a">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="rescue-logo">
+                <div class="rescue-icon">🛡️</div>
+                <h1>RESCUE HUB</h1>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Initializing Emergency Response Platform...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="rescue-logo-small">
+                    🛡️
+                    <span>RESCUE HUB</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#map" class="nav-link" data-section="map">
+                    <i class="fas fa-map"></i>
+                    <span>Map</span>
+                </a>
+                <a href="#reports" class="nav-link" data-section="reports">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#volunteers" class="nav-link" data-section="volunteers">
+                    <i class="fas fa-users"></i>
+                    <span>Volunteers</span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn-primary" id="report-incident-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>Report Incident</span>
+                </button>
+                <button class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="hero-section">
+                <div class="hero-background">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-particles"></div>
+                    <div class="floating-shapes">
+                        <div class="shape shape-1"></div>
+                        <div class="shape shape-2"></div>
+                        <div class="shape shape-3"></div>
+                        <div class="shape shape-4"></div>
+                        <div class="shape shape-5"></div>
+                    </div>
+                </div>
+                <div class="hero-content">
+                    <div class="rescue-logo-hero">
+                        <div class="rescue-icon-large">🛡️</div>
+                        <h1>RESCUE HUB</h1>
+                        <div class="hero-tagline">Emergency Response Command Center</div>
+                    </div>
+                    <h2>Advanced Emergency Coordination</h2>
+                    <p>Connecting first responders, volunteers, and communities through intelligent disaster management technology</p>
+                    <div class="hero-actions">
+                        <button class="btn-hero-primary" id="hero-report-btn">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Report Emergency
+                        </button>
+                        <button class="btn-hero-secondary" id="hero-volunteer-btn">
+                            <i class="fas fa-hands-helping"></i>
+                            Join as Volunteer
+                        </button>
+                    </div>
+                    
+                    <!-- Stats integrated into hero -->
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="stat-number" id="total-reports">0</div>
+                            <div class="stat-label">Active Reports</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-number" id="available-volunteers">0</div>
+                            <div class="stat-label">Ready Volunteers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-number" id="response-time">< 15min</div>
+                            <div class="stat-label">Avg Response Time</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-number">98.5%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="features-section">
+                    <h3>Platform Capabilities</h3>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-satellite-dish"></i>
+                            </div>
+                            <h4>Real-Time Tracking</h4>
+                            <p>Live incident monitoring with GPS precision and automated alerts</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4>AI-Powered Dispatch</h4>
+                            <p>Intelligent resource allocation and optimal response routing</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h4>Multi-Agency Coordination</h4>
+                            <p>Seamless communication between emergency services and volunteers</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h4>Mobile-First Design</h4>
+                            <p>Optimized for field operations with offline capabilities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workflow-section">
+                    <h3>Emergency Response Workflow</h3>
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-connector"></div>
+                            <div class="step-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <h4>Incident Detection</h4>
+                            <p>Citizens report emergencies through mobile app or web platform with precise location data</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-connector"></div>
+                            <div class="step-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4>AI Analysis</h4>
+                            <p>System analyzes severity, allocates resources, and determines optimal response strategy</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-connector"></div>
+                            <div class="step-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <h4>Coordinated Dispatch</h4>
+                            <p>Emergency services and volunteers receive real-time alerts with navigation assistance</p>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h4>Response & Recovery</h4>
+                            <p>Multi-agency coordination ensures comprehensive emergency response and community support</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="disaster-types">
+                    <h3>Emergency Response Categories</h3>
+                    <div class="disaster-grid">
+                        <div class="disaster-card" data-type="medical">
+                            <div class="disaster-overlay"></div>
+                            <div class="disaster-image">
+                                <img src="https://images.pexels.com/photos/305568/pexels-photo-305568.jpeg" alt="Medical Emergency">
+                            </div>
+                            <div class="disaster-info">
+                                <div class="disaster-icon">
+                                    <i class="fas fa-heartbeat"></i>
+                                </div>
+                                <h4>Medical Emergency</h4>
+                                <p>Critical medical response with paramedic dispatch and hospital coordination</p>
+                                <div class="disaster-stats">
+                                    <span class="response-time">Avg: 8 min</span>
+                                    <span class="success-rate">99.2% success</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="disaster-card" data-type="shelter">
+                            <div class="disaster-overlay"></div>
+                            <div class="disaster-image">
+                                <img src="https://images.pexels.com/photos/7551659/pexels-photo-7551659.jpeg" alt="Emergency Shelter">
+                            </div>
+                            <div class="disaster-info">
+                                <div class="disaster-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h4>Emergency Shelter</h4>
+                                <p>Rapid deployment of temporary housing and evacuation coordination</p>
+                                <div class="disaster-stats">
+                                    <span class="response-time">Avg: 45 min</span>
+                                    <span class="success-rate">96.8% success</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="disaster-card" data-type="food">
+                            <div class="disaster-overlay"></div>
+                            <div class="disaster-image">
+                                <img src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg" alt="Food Distribution">
+                            </div>
+                            <div class="disaster-info">
+                                <div class="disaster-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <h4>Food & Water</h4>
+                                <p>Emergency supply distribution and nutrition support networks</p>
+                                <div class="disaster-stats">
+                                    <span class="response-time">Avg: 2 hours</span>
+                                    <span class="success-rate">98.5% success</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="disaster-card" data-type="sos">
+                            <div class="disaster-overlay"></div>
+                            <div class="disaster-image">
+                                <img src="https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg" alt="Emergency SOS">
+                            </div>
+                            <div class="disaster-info">
+                                <div class="disaster-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <h4>Critical SOS</h4>
+                                <p>Life-threatening emergency response with multi-agency coordination</p>
+                                <div class="disaster-stats">
+                                    <span class="response-time">Avg: 5 min</span>
+                                    <span class="success-rate">99.7% success</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section id="map" class="content-section">
+            <div class="map-controls">
+                <div class="control-group">
+                    <h3>Disaster Response Map</h3>
+                    <div class="map-actions">
+                        <button class="btn-secondary" id="heatmap-toggle">
+                            <i class="fas fa-fire"></i>
+                            Toggle Heatmap
+                        </button>
+                        <button class="btn-secondary" id="my-location">
+                            <i class="fas fa-location-arrow"></i>
+                            My Location
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label>Category:</label>
+                        <select id="category-filter">
+                            <option value="">All Categories</option>
+                            <option value="medical">Medical</option>
+                            <option value="shelter">Shelter</option>
+                            <option value="food">Food</option>
+                            <option value="sos">SOS</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Severity:</label>
+                        <select id="severity-filter">
+                            <option value="">All Severities</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date Range:</label>
+                        <select id="date-filter">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div id="map-element"></div>
+                <div class="map-legend">
+                    <h4>Legend</h4>
+                    <div class="legend-items">
+                        <div class="legend-item">
+                            <i class="fas fa-heartbeat" style="color: #dc2626;"></i>
+                            <span>Medical</span>
+                        </div>
+                        <div class="legend-item">
+                            <i class="fas fa-home" style="color: #2563eb;"></i>
+                            <span>Shelter</span>
+                        </div>
+                        <div class="legend-item">
+                            <i class="fas fa-utensils" style="color: #059669;"></i>
+                            <span>Food</span>
+                        </div>
+                        <div class="legend-item">
+                            <i class="fas fa-exclamation-triangle" style="color: #d97706;"></i>
+                            <span>SOS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="content-section">
+            <div class="section-header">
+                <h3>Incident Reports</h3>
+                <div class="section-actions">
+                    <button class="btn-secondary" id="export-data">
+                        <i class="fas fa-download"></i>
+                        Export Data
+                    </button>
+                    <button class="btn-secondary" id="import-data">
+                        <i class="fas fa-upload"></i>
+                        Import Data
+                    </button>
+                </div>
+            </div>
+            
+            <div class="reports-grid" id="reports-grid">
+                <div class="no-reports">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h4>No Reports Yet</h4>
+                    <p>Start by reporting an incident to see it appear here</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Volunteers Section -->
+        <section id="volunteers" class="content-section">
+            <div class="volunteer-header">
+                <h3>Volunteer Coordination</h3>
+                <div class="volunteer-stats">
+                    <div class="volunteer-count">
+                        <span id="volunteer-count">0</span> Available Volunteers
+                    </div>
+                </div>
+            </div>
+            
+            <div class="volunteer-registration">
+                <div class="volunteer-form-card">
+                    <div class="form-header">
+                        <i class="fas fa-user-plus"></i>
+                        <h4>Volunteer Registration</h4>
+                    </div>
+                    <form id="volunteer-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="volunteer-name">
+                                    <i class="fas fa-user"></i>
+                                    Full Name
+                                </label>
+                                <input type="text" id="volunteer-name" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="volunteer-phone">
+                                    <i class="fas fa-phone"></i>
+                                    Phone Number
+                                </label>
+                                <input type="tel" id="volunteer-phone" placeholder="+1 (555) 123-4567" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group skills-group">
+                            <label>
+                                <i class="fas fa-tools"></i>
+                                Skills & Specialties
+                            </label>
+                            <div class="skills-container">
+                                <div class="skill-option">
+                                    <input type="checkbox" id="skill-medical" value="medical">
+                                    <label for="skill-medical" class="skill-label">
+                                        <i class="fas fa-heartbeat"></i>
+                                        <span>Medical Aid</span>
+                                    </label>
+                                </div>
+                                <div class="skill-option">
+                                    <input type="checkbox" id="skill-search" value="search-rescue">
+                                    <label for="skill-search" class="skill-label">
+                                        <i class="fas fa-search"></i>
+                                        <span>Search & Rescue</span>
+                                    </label>
+                                </div>
+                                <div class="skill-option">
+                                    <input type="checkbox" id="skill-logistics" value="logistics">
+                                    <label for="skill-logistics" class="skill-label">
+                                        <i class="fas fa-boxes"></i>
+                                        <span>Logistics</span>
+                                    </label>
+                                </div>
+                                <div class="skill-option">
+                                    <input type="checkbox" id="skill-communication" value="communication">
+                                    <label for="skill-communication" class="skill-label">
+                                        <i class="fas fa-comments"></i>
+                                        <span>Communication</span>
+                                    </label>
+                                </div>
+                                <div class="skill-option">
+                                    <input type="checkbox" id="skill-transport" value="transportation">
+                                    <label for="skill-transport" class="skill-label">
+                                        <i class="fas fa-truck"></i>
+                                        <span>Transportation</span>
+                                    </label>
+                                </div>
+                                <div class="skill-option">
+                                    <input type="checkbox" id="skill-food" value="food-prep">
+                                    <label for="skill-food" class="skill-label">
+                                        <i class="fas fa-utensils"></i>
+                                        <span>Food Preparation</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group availability-group">
+                            <label class="availability-label">
+                                <input type="checkbox" id="volunteer-available">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-check-circle"></i>
+                                Currently Available for Emergency Response
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-register">
+                            <i class="fas fa-user-plus"></i>
+                            Register as Volunteer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="volunteers-list" id="volunteers-list">
+                <h4>Active Volunteers</h4>
+                <div class="volunteers-grid" id="volunteers-grid">
+                    <div class="no-volunteers">
+                        <i class="fas fa-users"></i>
+                        <h4>No Volunteers Registered</h4>
+                        <p>Be the first to register as a volunteer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Report Incident Modal -->
+    <div class="modal" id="report-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Report Emergency Incident</h3>
+                </div>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="report-form" class="report-form">
+                <div class="form-section">
+                    <h4><i class="fas fa-info-circle"></i> Incident Information</h4>
+                    <div class="form-group">
+                        <label for="report-title">
+                            <i class="fas fa-heading"></i>
+                            Incident Title
+                        </label>
+                        <input type="text" id="report-title" placeholder="Brief description of the incident" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="report-category">
+                                <i class="fas fa-tags"></i>
+                                Category
+                            </label>
+                            <select id="report-category" required>
+                                <option value="">Select Category</option>
+                                <option value="medical">🏥 Medical Emergency</option>
+                                <option value="shelter">🏠 Shelter Needed</option>
+                                <option value="food">🍽️ Food/Water Required</option>
+                                <option value="sos">🚨 Critical SOS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="report-severity">
+                                <i class="fas fa-exclamation"></i>
+                                Severity Level
+                            </label>
+                            <select id="report-severity" required>
+                                <option value="">Select Severity</option>
+                                <option value="low">🟢 Low Priority</option>
+                                <option value="medium">🟡 Medium Priority</option>
+                                <option value="high">🟠 High Priority</option>
+                                <option value="critical">🔴 Critical Emergency</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h4><i class="fas fa-align-left"></i> Description</h4>
+                    <div class="form-group">
+                        <label for="report-description">Detailed Description</label>
+                        <textarea id="report-description" placeholder="Provide detailed information about the situation, number of people affected, immediate needs, etc." rows="4" required></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h4><i class="fas fa-camera"></i> Evidence (Optional)</h4>
+                    <div class="form-group">
+                        <label for="report-photo" class="file-upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Upload Photo</span>
+                            <small>Click to select or drag and drop</small>
+                        </label>
+                        <input type="file" id="report-photo" accept="image/*">
+                        <div class="photo-preview" id="photo-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h4><i class="fas fa-map-marker-alt"></i> Location</h4>
+                    <div class="location-group">
+                        <div class="location-actions">
+                            <button type="button" id="use-location" class="btn-location">
+                                <i class="fas fa-location-arrow"></i>
+                                Use My Current Location
+                            </button>
+                            <button type="button" id="select-on-map" class="btn-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Select on Map
+                            </button>
+                        </div>
+                        <div id="location-display" class="location-display"></div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancel-report">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-primary" id="submit-report">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Emergency Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Incident Detail Modal -->
+    <div class="modal" id="incident-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="incident-title">Incident Details</h3>
+                <button class="modal-close" id="incident-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="incident-details" id="incident-details">
+                <!-- Incident details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- File input for import -->
+    <input type="file" id="file-input" accept=".json" style="display: none;">
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
