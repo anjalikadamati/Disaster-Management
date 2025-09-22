@@ -98,16 +98,16 @@ class DisasterResponsePlatform {
     const sampleVolunteers = [
       {
         id: 'volunteer-1',
-        name: 'Dr. Sarah Johnson',
-        phone: '+1-555-0123',
+        name: 'Dr. Kumari',
+        phone: '+91 9948739954',
         skills: ['medical', 'communication'],
         available: true,
         registeredAt: new Date(Date.now() - 86400000).toISOString()
       },
       {
         id: 'volunteer-2',
-        name: 'Mike Chen',
-        phone: '+1-555-0124',
+        name: 'Dr. Prasad',
+        phone: '+91 6800295798',
         skills: ['search-rescue', 'logistics'],
         available: true,
         registeredAt: new Date(Date.now() - 172800000).toISOString()
@@ -316,6 +316,12 @@ class DisasterResponsePlatform {
           this.updateLocationDisplay();
           this.selectingLocation = false;
           document.body.style.cursor = 'default';
+          
+          const reportModal = document.getElementById('report-modal');
+          if (reportModal) {
+            reportModal.classList.add('active'); // Show the report modal again
+          }
+          this.showToast('Success', 'Location selected on map', 'success');
         }
       });
 
@@ -457,6 +463,28 @@ class DisasterResponsePlatform {
     }, 5000);
   }
 
+  // --- NEW DELETE METHODS ---
+  deleteReport(reportId) {
+    if (confirm('Are you sure you want to delete this report?')) {
+        this.reports = this.reports.filter(report => report.id !== reportId);
+        this.saveData();
+        this.renderReports();
+        this.updateDashboardStats();
+        this.updateMapMarkers();
+        this.showToast('Success', 'Report deleted successfully', 'success');
+    }
+  }
+
+  deleteVolunteer(volunteerId) {
+    if (confirm('Are you sure you want to unregister this volunteer?')) {
+        this.volunteers = this.volunteers.filter(volunteer => volunteer.id !== volunteerId);
+        this.saveData();
+        this.renderVolunteers();
+        this.updateDashboardStats();
+        this.showToast('Success', 'Volunteer unregistered successfully', 'success');
+    }
+  }
+
   // Rendering methods
   updateDashboardStats() {
     const totalReports = document.getElementById('total-reports');
@@ -498,16 +526,21 @@ class DisasterResponsePlatform {
       const iconConfig = this.getIconConfig(report.category);
       
       return `
-        <div class="report-card severity-${report.severity}" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
+        <div class="report-card severity-${report.severity}">
           <div class="report-header">
             <div class="report-title">${report.title}</div>
-            <div class="report-category ${report.category}">
-              <i class="fas ${iconConfig.icon}"></i>
-              ${report.category.charAt(0).toUpperCase() + report.category.slice(1)}
+            <div class="report-actions">
+              <div class="report-category ${report.category}">
+                <i class="fas ${iconConfig.icon}"></i>
+                ${report.category.charAt(0).toUpperCase() + report.category.slice(1)}
+              </div>
+              <button class="delete-btn" onclick="platform.deleteReport('${report.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
           </div>
           
-          <div class="report-meta">
+          <div class="report-meta" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
             <div class="report-time">
               <i class="fas fa-clock"></i>
               ${timeAgo}
@@ -517,11 +550,11 @@ class DisasterResponsePlatform {
             </div>
           </div>
           
-          <div class="report-description">
+          <div class="report-description" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
             ${report.description}
           </div>
           
-          <div class="report-location">
+          <div class="report-location" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
             <i class="fas fa-map-marker-alt"></i>
             ${report.address || 'Location not available'}
           </div>
@@ -551,7 +584,13 @@ class DisasterResponsePlatform {
       return `
         <div class="volunteer-card ${volunteer.available ? 'available' : 'unavailable'}">
           <div class="volunteer-info">
-            <h5>${volunteer.name}</h5>
+            <div class="volunteer-actions">
+              <h5>${volunteer.name}</h5>
+              <button class="delete-btn" onclick="platform.deleteVolunteer('${volunteer.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            
             <div class="volunteer-phone">
               <i class="fas fa-phone"></i>
               ${volunteer.phone}
@@ -609,10 +648,15 @@ class DisasterResponsePlatform {
   }
 
   selectLocationOnMap() {
+    const reportModal = document.getElementById('report-modal');
+    if (reportModal) {
+      reportModal.classList.remove('active'); // Hide the report modal
+    }
+
     this.selectingLocation = true;
     document.body.style.cursor = 'crosshair';
     this.showToast('Info', 'Click on the map to select location', 'info');
-    this.showSection('map');
+    this.showSection('map'); // Switch to map section
   }
 
   updateLocationDisplay() {
@@ -630,6 +674,18 @@ class DisasterResponsePlatform {
       `;
     } else {
       locationDisplay.innerHTML = '';
+    }
+
+    // If a location is selected on the map, add a temporary marker
+    if (this.selectedLocation && this.map) {
+      if (this.tempMarker) {
+        this.map.removeLayer(this.tempMarker);
+      }
+      this.tempMarker = L.marker([this.selectedLocation.lat, this.selectedLocation.lng]).addTo(this.map)
+        .bindPopup('Selected Location').openPopup();
+    } else if (this.tempMarker) {
+      this.map.removeLayer(this.tempMarker);
+      this.tempMarker = null;
     }
   }
 
@@ -1025,21 +1081,4 @@ if (('serviceWorker' in navigator) && (location.protocol === 'https:' || locatio
 document.addEventListener('DOMContentLoaded', () => {
   window.platform = new DisasterResponsePlatform();
   window.platform.init();
-});
-
-// Enable selecting location on map
-document.querySelectorAll('.select-on-map-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const reportModal = document.querySelector('.modal-container');
-        if (reportModal) {
-            reportModal.style.display = 'none'; // Hide modal
-        }
-        map.once('click', function(e) {
-            const latlng = e.latlng;
-            document.querySelector('#location-input').value = `${latlng.lat}, ${latlng.lng}`;
-            if (reportModal) {
-                reportModal.style.display = 'block'; // Show modal again
-            }
-        });
-    });
 });

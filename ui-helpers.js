@@ -675,16 +675,21 @@ DisasterResponsePlatform.prototype.renderReports = function(reports = this.repor
     const iconConfig = this.getIconConfig(report.category);
     
     return `
-      <div class="report-card severity-${report.severity}" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
+      <div class="report-card severity-${report.severity}">
         <div class="report-header">
           <div class="report-title">${report.title}</div>
-          <div class="report-category ${report.category}">
-            <i class="fas ${iconConfig.icon}"></i>
-            ${report.category.charAt(0).toUpperCase() + report.category.slice(1)}
+          <div class="report-actions">
+            <div class="report-category ${report.category}">
+              <i class="fas ${iconConfig.icon}"></i>
+              ${report.category.charAt(0).toUpperCase() + report.category.slice(1)}
+            </div>
+            <button class="delete-btn" onclick="platform.deleteReport('${report.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
           </div>
         </div>
         
-        <div class="report-meta">
+        <div class="report-meta" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
           <div class="report-time">
             <i class="fas fa-clock"></i>
             ${timeAgo}
@@ -694,11 +699,11 @@ DisasterResponsePlatform.prototype.renderReports = function(reports = this.repor
           </div>
         </div>
         
-        <div class="report-description">
+        <div class="report-description" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
           ${report.description}
         </div>
         
-        <div class="report-location">
+        <div class="report-location" onclick="platform.showIncidentDetails(${JSON.stringify(report).replace(/"/g, '&quot;')})">
           <i class="fas fa-map-marker-alt"></i>
           ${report.address || 'Location not available'}
         </div>
@@ -728,7 +733,13 @@ DisasterResponsePlatform.prototype.renderVolunteers = function() {
     return `
       <div class="volunteer-card ${volunteer.available ? 'available' : 'unavailable'}">
         <div class="volunteer-info">
-          <h5>${volunteer.name}</h5>
+          <div class="volunteer-actions">
+            <h5>${volunteer.name}</h5>
+            <button class="delete-btn" onclick="platform.deleteVolunteer('${volunteer.id}')">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          
           <div class="volunteer-phone">
             <i class="fas fa-phone"></i>
             ${volunteer.phone}

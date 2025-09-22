@@ -5,25 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESCUE HUB - Emergency Response Platform</title>
     
-    <!-- PWA Meta Tags -->
     <meta name="description" content="Advanced emergency response coordination platform">
     <meta name="theme-color" content="#1e3a8a">
     <link rel="manifest" href="manifest.json">
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="rescue-logo">
@@ -35,7 +29,6 @@
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="nav-brand">
@@ -81,9 +74,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="main-content">
-        <!-- Dashboard Section -->
         <section id="dashboard" class="content-section active">
             <div class="hero-section">
                 <div class="hero-background">
@@ -116,7 +107,6 @@
                         </button>
                     </div>
                     
-                    <!-- Stats integrated into hero -->
                     <div class="hero-stats">
                         <div class="stat-card">
                             <div class="stat-icon">
@@ -302,7 +292,6 @@
             </div>
         </section>
 
-        <!-- Map Section -->
         <section id="map" class="content-section">
             <div class="map-controls">
                 <div class="control-group">
@@ -378,7 +367,6 @@
             </div>
         </section>
 
-        <!-- Reports Section -->
         <section id="reports" class="content-section">
             <div class="section-header">
                 <h3>Incident Reports</h3>
@@ -403,7 +391,6 @@
             </div>
         </section>
 
-        <!-- Volunteers Section -->
         <section id="volunteers" class="content-section">
             <div class="volunteer-header">
                 <h3>Volunteer Coordination</h3>
@@ -414,99 +401,96 @@
                 </div>
             </div>
             
-            <div class="volunteer-registration">
-                <div class="volunteer-form-card">
-                    <div class="form-header">
-                        <i class="fas fa-user-plus"></i>
-                        <h4>Volunteer Registration</h4>
-                    </div>
-                    <form id="volunteer-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="volunteer-name">
-                                    <i class="fas fa-user"></i>
-                                    Full Name
-                                </label>
-                                <input type="text" id="volunteer-name" placeholder="Enter your full name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="volunteer-phone">
-                                    <i class="fas fa-phone"></i>
-                                    Phone Number
-                                </label>
-                                <input type="tel" id="volunteer-phone" placeholder="+1 (555) 123-4567" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group skills-group">
-                            <label>
-                                <i class="fas fa-tools"></i>
-                                Skills & Specialties
-                            </label>
-                            <div class="skills-container">
-                                <div class="skill-option">
-                                    <input type="checkbox" id="skill-medical" value="medical">
-                                    <label for="skill-medical" class="skill-label">
-                                        <i class="fas fa-heartbeat"></i>
-                                        <span>Medical Aid</span>
-                                    </label>
-                                </div>
-                                <div class="skill-option">
-                                    <input type="checkbox" id="skill-search" value="search-rescue">
-                                    <label for="skill-search" class="skill-label">
-                                        <i class="fas fa-search"></i>
-                                        <span>Search & Rescue</span>
-                                    </label>
-                                </div>
-                                <div class="skill-option">
-                                    <input type="checkbox" id="skill-logistics" value="logistics">
-                                    <label for="skill-logistics" class="skill-label">
-                                        <i class="fas fa-boxes"></i>
-                                        <span>Logistics</span>
-                                    </label>
-                                </div>
-                                <div class="skill-option">
-                                    <input type="checkbox" id="skill-communication" value="communication">
-                                    <label for="skill-communication" class="skill-label">
-                                        <i class="fas fa-comments"></i>
-                                        <span>Communication</span>
-                                    </label>
-                                </div>
-                                <div class="skill-option">
-                                    <input type="checkbox" id="skill-transport" value="transportation">
-                                    <label for="skill-transport" class="skill-label">
-                                        <i class="fas fa-truck"></i>
-                                        <span>Transportation</span>
-                                    </label>
-                                </div>
-                                <div class="skill-option">
-                                    <input type="checkbox" id="skill-food" value="food-prep">
-                                    <label for="skill-food" class="skill-label">
-                                        <i class="fas fa-utensils"></i>
-                                        <span>Food Preparation</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group availability-group">
-                            <label class="availability-label">
-                                <input type="checkbox" id="volunteer-available">
-                                <span class="checkmark"></span>
-                                <i class="fas fa-check-circle"></i>
-                                Currently Available for Emergency Response
-                            </label>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary btn-register">
-                            <i class="fas fa-user-plus"></i>
-                            Register as Volunteer
-                        </button>
-                    </form>
+            <div class="volunteer-registration-wrapper">
+                <div class="form-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h4>Volunteer Registration</h4>
                 </div>
+                <form id="volunteer-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="volunteer-name">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <input type="text" id="volunteer-name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="volunteer-phone">
+                                <i class="fas fa-phone"></i>
+                                Phone Number
+                            </label>
+                            <input type="tel" id="volunteer-phone" placeholder="+91.........." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group skills-group">
+                        <label>
+                            <i class="fas fa-tools"></i>
+                            Skills & Specialties
+                        </label>
+                        <div class="skills-container">
+                            <div class="skill-option">
+                                <input type="checkbox" id="skill-medical" value="medical">
+                                <label for="skill-medical" class="skill-label">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <span>Medical Aid</span>
+                                </label>
+                            </div>
+                            <div class="skill-option">
+                                <input type="checkbox" id="skill-search" value="search-rescue">
+                                <label for="skill-search" class="skill-label">
+                                    <i class="fas fa-search"></i>
+                                    <span>Search & Rescue</span>
+                                </label>
+                            </div>
+                            <div class="skill-option">
+                                <input type="checkbox" id="skill-logistics" value="logistics">
+                                <label for="skill-logistics" class="skill-label">
+                                    <i class="fas fa-boxes"></i>
+                                    <span>Logistics</span>
+                                </label>
+                            </div>
+                            <div class="skill-option">
+                                <input type="checkbox" id="skill-communication" value="communication">
+                                <label for="skill-communication" class="skill-label">
+                                    <i class="fas fa-comments"></i>
+                                    <span>Communication</span>
+                                </label>
+                            </div>
+                            <div class="skill-option">
+                                <input type="checkbox" id="skill-transport" value="transportation">
+                                <label for="skill-transport" class="skill-label">
+                                    <i class="fas fa-truck"></i>
+                                    <span>Transportation</span>
+                                </label>
+                            </div>
+                            <div class="skill-option">
+                                <input type="checkbox" id="skill-food" value="food-prep">
+                                <label for="skill-food" class="skill-label">
+                                    <i class="fas fa-utensils"></i>
+                                    <span>Food Preparation</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group availability-group">
+                        <label class="availability-label">
+                            <input type="checkbox" id="volunteer-available">
+                            <i class="fas fa-check-circle"></i>
+                            Currently Available for Emergency Response
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary btn-register">
+                        <i class="fas fa-user-plus"></i>
+                        Register as Volunteer
+                    </button>
+                </form>
             </div>
 
-            <div class="volunteers-list" id="volunteers-list">
+            <div class="volunteers-list">
                 <h4>Active Volunteers</h4>
                 <div class="volunteers-grid" id="volunteers-grid">
                     <div class="no-volunteers">
@@ -519,7 +503,6 @@
         </section>
     </main>
 
-    <!-- Report Incident Modal -->
     <div class="modal" id="report-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -625,7 +608,6 @@
         </div>
     </div>
 
-    <!-- Incident Detail Modal -->
     <div class="modal" id="incident-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -635,19 +617,16 @@
                 </button>
             </div>
             <div class="incident-details" id="incident-details">
-                <!-- Incident details will be populated here -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- Toast Notifications -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- File input for import -->
     <input type="file" id="file-input" accept=".json" style="display: none;">
 
-    <!-- Scripts -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
+    <script src="uihelper.js"></script>
 </body>
 </html>
